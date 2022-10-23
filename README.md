@@ -273,3 +273,23 @@
 				}
 			}
 			```
+			
+    - Add close messages:
+        - Add close message to EndApplication method:
+		    ```c#
+			namespace C_001_SRP
+			{
+				public class StandardMessages
+				{
+					....
+			
+					public static void EndApplication()
+					{
+						Console.WriteLine("Presione enter para cerrar...");
+						Console.ReadLine();
+					}
+			
+					....
+				}
+			}
+		    ```
