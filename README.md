@@ -240,3 +240,36 @@
 				}
 			}
 			```
+			
+    - Account generator:
+        - Create a class to generate accounts:
+		    ```c#
+			namespace C_001_SRP
+			{
+				public class AccountGenerator
+				{
+					public static void CreateAccount(Person user)
+					{
+						// Crear un nombre de usuario para la persona.
+						Console.WriteLine($"Su nombre de usuario es {user.FirstName.Substring(0, 1)}{user.LastName}");
+					}
+				}
+			}
+		    ```
+		- Modify program.cs to use AccountGenerator class:
+			```c#
+			namespace C_001_SRP
+			{
+				internal class Program
+				{
+					static void Main(string[] args)
+					{
+						....
+			
+						// Crear un nombre de usuario para la persona.
+						AccountGenerator.CreateAccount(user);
+						StandardMessages.EndApplication();
+					}
+				}
+			}
+			```

@@ -20,7 +20,8 @@ namespace C_001_SRP
             }
 
             // Crear un nombre de usuario para la persona.
-            Console.WriteLine($"Su nombre de usuario es {user.FirstName.Substring(0, 1)}{user.LastName}");
+            AccountGenerator.CreateAccount(user);
+
             StandardMessages.EndApplication();
         }
     }
