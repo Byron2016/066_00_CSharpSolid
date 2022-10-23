@@ -960,3 +960,161 @@
 					}
 				}
 				```
+				
+    - Become a LSP compliace:
+		- Into C_003_LSP_Library project
+			- Interfaces
+				- IEmployee
+					```c#
+					namespace C_003_LSP_Library.Interfaces
+					{
+						public interface IEmployee
+						{
+							string FirstName { get; set; }
+							string LastName { get; set; }
+							decimal Salary { get; set; }
+					
+							void CalculatePerHourRate(int rank);
+						}
+					}
+					```
+				- IManaged
+					```c#
+					namespace C_003_LSP_Library.Interfaces
+					{
+						public interface IManaged : IEmployee
+						{
+							IEmployee Manager { get; set; }
+							void AssignManager(IEmployee manager);
+						}
+					}
+					```
+				- IManager
+					```c#
+					namespace C_003_LSP_Library.Interfaces
+					{
+						public interface IManager : IEmployee
+						{
+							void GeneratePerfomanceReview();
+						}
+					}
+					```
+			- Base classes
+				- BaseEmployee
+					```c#
+					using C_003_LSP_Library.Interfaces;
+					
+					namespace C_003_LSP_Library.Base
+					{
+						public abstract class BaseEmployee : IEmployee
+						{
+							public string FirstName { get; set; }
+							public string LastName { get; set; }
+							public decimal Salary { get; set; }
+					
+							public virtual void CalculatePerHourRate(int rank)
+							{
+								decimal baseAccount = 12.50M;
+								Salary = baseAccount + (rank * 2);
+							}
+						}
+					}
+					```
+			- Implement interfaces and inheritance
+				- Employee
+					```c#
+					namespace C_003_LSP_Library
+					{
+						public class Employee : BaseEmployee, IManaged
+						{
+							public IEmployee Manager { get; set; } = null;
+					
+							public void AssignManager(IEmployee manager)
+							{
+								//Simulate doing other task here - otherwise, this sould be
+								// a property set statement, not a method.
+								Manager = manager;
+							}
+						}
+					}
+					```
+				- Manager
+					```c#
+					using C_003_LSP_Library.Interfaces;
+					
+					namespace C_003_LSP_Library
+					{
+						public class Manager : Employee, IManager
+						{
+							public override void CalculatePerHourRate(int rank)
+							{
+								decimal baseAmount = 19.75M;
+								Salary = baseAmount + (rank * 4);
+							}
+					
+							public void GeneratePerfomanceReview()
+							{
+								// Simulate reviewing a direct report
+								Console.WriteLine("I'm reviewing a direct report's performance.");
+							}
+						}
+					}
+					```
+				- CEO
+					```c#
+					using C_003_LSP_Library.Base;
+					using C_003_LSP_Library.Interfaces;
+					
+					namespace C_003_LSP_Library
+					{
+						public class CEO : BaseEmployee, IManager
+						{
+							public override void CalculatePerHourRate(int rank)
+							{
+								decimal baseAmount = 150M;
+								Salary = baseAmount * rank;
+							}
+					
+							public void GeneratePerfomanceReview()
+							{
+								// Simulate reviewing a direct report
+								Console.WriteLine("I'm reviewing a direct report's performance.");
+							}
+					
+							public void FireSomeone()
+							{
+								// Simulate firing someone
+								Console.WriteLine("You're fired!");
+							}
+						}
+					}
+					```
+					
+        - Into C_003_LSP project
+			- Program
+				```c#
+				using C_003_LSP_Library;
+				using C_003_LSP_Library.Base;
+				using C_003_LSP_Library.Interfaces;
+				
+				namespace C_003_LSP
+				{
+					public class Program
+					{
+						static void Main(string[] args)
+						{
+							IManager accountingVP = new CEO();
+							// IManager accountingVP = new Manager();
+				
+							....
+				
+							// Employee emp = new Employee();
+							// Employee emp = new Manager();
+							// Employee emp = new CEO();  //Con este da error, CEO no tiene manager.
+							IManaged emp = new Employee();
+				
+							....
+						}
+					}
+				}
+				```

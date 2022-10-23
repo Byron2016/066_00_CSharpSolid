@@ -1,4 +1,6 @@
 ﻿using C_003_LSP_Library;
+using C_003_LSP_Library.Base;
+using C_003_LSP_Library.Interfaces;
 
 namespace C_003_LSP
 {
@@ -6,7 +8,8 @@ namespace C_003_LSP
     {
         static void Main(string[] args)
         {
-            Manager accountingVP = new Manager();
+            IManager accountingVP = new CEO();
+            // IManager accountingVP = new Manager();
 
             accountingVP.FirstName = "Emma";
             accountingVP.LastName = "Stone";
@@ -14,7 +17,8 @@ namespace C_003_LSP
 
             // Employee emp = new Employee();
             // Employee emp = new Manager();
-            Employee emp = new CEO();  //Con este da error, CEO no tiene manager.
+            // Employee emp = new CEO();  //Con este da error, CEO no tiene manager.
+            IManaged emp = new Employee();
 
             emp.FirstName = "Tim";
             emp.LastName = "Corey";

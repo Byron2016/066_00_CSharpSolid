@@ -1,25 +1,17 @@
-﻿namespace C_003_LSP_Library
+﻿using C_003_LSP_Library.Base;
+using C_003_LSP_Library.Interfaces;
+
+namespace C_003_LSP_Library
 {
-    public class Employee
+    public class Employee : BaseEmployee, IManaged
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public IEmployee Manager { get; set; } = null;
 
-        public Employee Manager { get; set; }
-        public decimal Salary { get; set; }
-
-        public virtual void AssignManager(Employee manager)
+        public void AssignManager(IEmployee manager)
         {
             //Simulate doing other task here - otherwise, this sould be
             // a property set statement, not a method.
             Manager = manager;
         }
-
-        public virtual void CalculatePerHourRate(int rank)
-        {
-            decimal baseAccount = 12.50M;
-            Salary = baseAccount + (rank * 2);
-        }
-
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace C_003_LSP_Library
+﻿using C_003_LSP_Library.Interfaces;
+
+namespace C_003_LSP_Library
 {
-    public class Manager : Employee
+    public class Manager : Employee, IManager
     {
         public override void CalculatePerHourRate(int rank)
         {
