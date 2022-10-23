@@ -73,56 +73,101 @@
 			}
 		}
 		```
-    - Create a class to manage messages:
-		```c#
-		namespace C_001_SRP
-		{
-			public class StandardMessages
-			{
-				public static void WelcomeMessage()
-				{
-					Console.WriteLine("Bienvenido a mi aplicación");
-				}
 		
-				public static void EndApplication()
+	- Manage messages:
+		- Create a class to manage messages:
+			```c#
+			namespace C_001_SRP
+			{
+				public class StandardMessages
 				{
-					Console.ReadLine();
+					public static void WelcomeMessage()
+					{
+						Console.WriteLine("Bienvenido a mi aplicación");
+					}
+			
+					public static void EndApplication()
+					{
+						Console.ReadLine();
+					}
 				}
 			}
-		}
-		```
+			```
 
-    - Modify program.cs to use StandardMessages class:
-		```c#
-		namespace C_001_SRP
-		{
-			internal class Program
+		- Modify program.cs to use StandardMessages class:
+			```c#
+			namespace C_001_SRP
 			{
-				static void Main(string[] args)
+				internal class Program
 				{
-					StandardMessages.WelcomeMessage();
-		
-					....
-		
-					// Chequear que nombre y apellido son válidos.
-					if (string.IsNullOrEmpty(user.FirstName))
+					static void Main(string[] args)
 					{
-						Console.WriteLine("No ha proporcionado un nombre inválido!");
+						StandardMessages.WelcomeMessage();
+			
+						....
+			
+						// Chequear que nombre y apellido son válidos.
+						if (string.IsNullOrEmpty(user.FirstName))
+						{
+							Console.WriteLine("No ha proporcionado un nombre inválido!");
+							StandardMessages.EndApplication();
+							return;
+						}
+			
+						if (string.IsNullOrEmpty(user.LastName))
+						{
+							Console.WriteLine("No ha proporcionado un apellido inválido!");
+							StandardMessages.EndApplication();
+							return;
+						}
+			
+						// Crear un nombre de usuario para la persona.
+						Console.WriteLine($"Su nombre de usuario es {user.FirstName.Substring(0, 1)}{user.LastName}");
 						StandardMessages.EndApplication();
-						return;
 					}
-		
-					if (string.IsNullOrEmpty(user.LastName))
-					{
-						Console.WriteLine("No ha proporcionado un apellido inválido!");
-						StandardMessages.EndApplication();
-						return;
-					}
-		
-					// Crear un nombre de usuario para la persona.
-					Console.WriteLine($"Su nombre de usuario es {user.FirstName.Substring(0, 1)}{user.LastName}");
-					StandardMessages.EndApplication();
 				}
 			}
-		}
-		```
+			```
+
+    - Capture person Data:
+        - Create a class to capture person Data:
+		    ```c#
+			namespace C_001_SRP
+			{
+				public class PersonDataCapture
+				{
+					public static Person Capture()
+					{
+						// Preguntar por información del usuario
+						Person output = new Person();
+			
+						Console.WriteLine("Cuál es su primer nombre: ");
+						output.FirstName = Console.ReadLine();
+			
+						Console.WriteLine("Cuál es su apellido: ");
+						output.LastName = Console.ReadLine();
+			
+						return output;
+					}
+				}
+			}
+		    ```
+		- Modify program.cs to use PersonDataCapture class:
+			```c#
+			namespace C_001_SRP
+			{
+				internal class Program
+				{
+					static void Main(string[] args)
+					{
+						StandardMessages.WelcomeMessage();
+						....
+			
+						Person user = PersonDataCapture.Capture();
+						
+						// Chequear que nombre y apellido son válidos.
+						....
+					}
+				}
+			}
+			```

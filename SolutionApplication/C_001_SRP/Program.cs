@@ -9,13 +9,7 @@ namespace C_001_SRP
             StandardMessages.WelcomeMessage();
 
             // Preguntar por información del usuario
-            Person user = new Person();
-
-            Console.WriteLine("Cuál es su primer nombre: ");
-            user.FirstName = Console.ReadLine();
-
-            Console.WriteLine("Cuál es su apellido: ");
-            user.LastName = Console.ReadLine();
+            Person user = PersonDataCapture.Capture();
 
             // Chequear que nombre y apellido son válidos.
             if (string.IsNullOrEmpty(user.FirstName))
