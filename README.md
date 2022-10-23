@@ -521,3 +521,7 @@
 				}
 			}
 		    ```
+			
+    - The right way: We are going to add two new types of employee: manager and executive.
+        - Return all to initial state.
+		
