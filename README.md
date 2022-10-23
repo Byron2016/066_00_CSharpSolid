@@ -791,10 +791,10 @@
 		```
 		SolutionApplication.DTOs
 		└─── 002_OCP 
-		    │
-		    └─── C_002_OCP_Library
-		        │
-		        └─── Accounts
+			│
+			└─── C_002_OCP_Library
+				│
+				└─── Accounts
 				│	│
 				│	└─── Accounts.cs
 				│	│
@@ -803,8 +803,8 @@
 				│	└─── IAccounts.cs
 				│	│
 				│	└─── ManagerAccounts.cs
-		        │
-		        └─── Applicants
+				│
+				└─── Applicants
 					│
 					└─── ExecutiveModel.cs
 					│
@@ -815,3 +815,148 @@
 					└─── PersonModel.cs
 	
 		```
+		
+4. Liskov Substitution Principle
+    - Create new projects with these caracteristics:
+        - Project Type: Console App
+	    - Projects Name: C_003_LSP
+        - Framework: .NET 6.0 (Long-term support) 
+        - Do not use top-level-statements: true
+
+    - Create new projects with these caracteristics:
+        - Project Type: Class Library
+	    - Projects Name: C_003_LSP_Library
+        - Framework: .NET 6.0 (Long-term support) 
+		
+	- Definition: 
+		- If S is a subtype of T then objects of type T may be replaced with objects of type S without breaking the program. Covariance, contravariance, preconditions, post conditions
+			- Coviariance talks about the return type of a method. So it´s saying if you have return type that returned type can´t change.
+			- Contravariance talks about the input type
+			- Pre conditions you cannot strenghten them. 
+			- Post conditions 
+		- NOTE: The inicial code example breaks this principle because we can not remplace into Program class
+			- From 
+				```c#
+				Employee emp = new Employee();
+				```
+			- To
+				```c#
+				Employee emp = new CEO();
+				```
+				</br>
+			It brokes application because CEO does not have a manager. 
+			
+    - We have this initial code:
+        - Into C_003_LSP_Library project
+			- Employee
+				```c#
+				namespace C_003_LSP_Library
+				{
+					public class Employee
+					{
+						public string FirstName { get; set; }
+						public string LastName { get; set; }
+				
+						public Employee Manager { get; set; }
+						public decimal Salary { get; set; }
+				
+						public virtual void AssignManager(Employee manager)
+						{
+							//Simulate doing other task here - otherwise, this sould be
+							// a property set statement, not a method.
+							Manager = manager;
+						}
+				
+						public virtual void CalculatePerHourRate(int rank)
+						{
+							decimal baseAccount = 12.50M;
+							Salary = baseAccount + (rank * 2);
+						}
+				
+					}
+				}
+				```
+			- Manager
+				```c#
+				namespace C_003_LSP_Library
+				{
+					public class Manager : Employee
+					{
+						public override void CalculatePerHourRate(int rank)
+						{
+							decimal baseAmount = 19.75M;
+							Salary = baseAmount + (rank * 4);
+						}
+				
+						public void GeneratePerfomanceReview()
+						{
+							// Simulate reviewing a direct report
+							Console.WriteLine("I'm reviewing a direct report's performance.");
+						}
+					}
+				}
+				```
+			- CEO
+				```c#
+				namespace C_003_LSP_Library
+				{
+					public class CEO : Employee
+					{
+						public override void CalculatePerHourRate(int rank)
+						{
+							decimal baseAmount = 150M;
+							Salary = baseAmount * rank;
+						}
+				
+						public override void AssignManager(Employee manager)
+						{
+							throw new InvalidOperationException("The CEO has no manager");
+						}
+				
+						public void GeneratePerfomanceReview()
+						{
+							// Simulate reviewing a direct report
+							Console.WriteLine("I'm reviewing a direct report's performance.");
+						}
+				
+						public void FireSomeone()
+						{
+							// Simulate firing someone
+							Console.WriteLine("You're fired!");
+						}
+					}
+				}
+				```
+        - Into C_003_LSP project
+			- Program
+				```c#
+				using C_003_LSP_Library;
+				
+				namespace C_003_LSP
+				{
+					public class Program
+					{
+						static void Main(string[] args)
+						{
+							Manager accountingVP = new Manager();
+				
+							accountingVP.FirstName = "Emma";
+							accountingVP.LastName = "Stone";
+							accountingVP.CalculatePerHourRate(4);
+				
+							// Employee emp = new Employee();
+							// Employee emp = new Manager();
+							Employee emp = new CEO();  //Con este da error, CEO no tiene manager.
+				
+							emp.FirstName = "Tim";
+							emp.LastName = "Corey";
+							emp.AssignManager(accountingVP);
+							emp.CalculatePerHourRate(2);
+				
+							Console.WriteLine($"{emp.FirstName}'s salary is ${emp.Salary}/hour.");
+				
+							Console.ReadLine();
+						}
+					}
+				}
+				```
