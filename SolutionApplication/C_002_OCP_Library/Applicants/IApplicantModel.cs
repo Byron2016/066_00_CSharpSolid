@@ -1,4 +1,6 @@
-﻿namespace C_002_OCP_Library
+﻿using C_002_OCP_Library.Accounts;
+
+namespace C_002_OCP_Library.Applicants
 {
     public interface IApplicantModel
     {

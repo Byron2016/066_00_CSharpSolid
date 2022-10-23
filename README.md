@@ -768,3 +768,50 @@
 					}
 				}
 				```
+				
+    - Diferences between wrong and right way
+		- With wrong way we have to modified
+			- Programs
+			- Account
+			- EmployeeModel
+			- EmployeeType
+			- PersonModel
+			
+		- With right way we have to modified
+			- Programs
+			- IAccounts
+			- Accounts
+			- ManagerAccounts
+			- EmployeeModel
+			- IApplicantModel
+			- PersonModel
+			- ManagerModel
+			
+    - Order into folders
+		```
+		SolutionApplication.DTOs
+		└─── 002_OCP 
+		    │
+		    └─── C_002_OCP_Library
+		        │
+		        └─── Accounts
+				│	│
+				│	└─── Accounts.cs
+				│	│
+				│	└─── ExecutiveAccounts.cs
+				│	│
+				│	└─── IAccounts.cs
+				│	│
+				│	└─── ManagerAccounts.cs
+		        │
+		        └─── Applicants
+					│
+					└─── ExecutiveModel.cs
+					│
+					└─── IApplicantModel.cs
+					│
+					└─── ManagerModel.cs
+					│
+					└─── PersonModel.cs
+	
+		```
