@@ -6,7 +6,7 @@ namespace C_001_SRP
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Bienvenido a mi aplicación");
+            StandardMessages.WelcomeMessage();
 
             // Preguntar por información del usuario
             Person user = new Person();
@@ -21,20 +21,20 @@ namespace C_001_SRP
             if (string.IsNullOrEmpty(user.FirstName))
             {
                 Console.WriteLine("No ha proporcionado un nombre inválido!");
-                Console.ReadLine();
+                StandardMessages.EndApplication();
                 return;
             }
 
             if (string.IsNullOrEmpty(user.LastName))
             {
                 Console.WriteLine("No ha proporcionado un apellido inválido!");
-                Console.ReadLine();
+                StandardMessages.EndApplication();
                 return;
             }
 
             // Crear un nombre de usuario para la persona.
             Console.WriteLine($"Su nombre de usuario es {user.FirstName.Substring(0, 1)}{user.LastName}");
-            Console.ReadLine();
+            StandardMessages.EndApplication();
         }
     }
 }
