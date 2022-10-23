@@ -14,7 +14,7 @@ echo "&nbsp;" >> README.md
 echo "" >> README.md
 echo "## Project Description" >> README.md
 echo "" >> README.md
-echo "## Stepts" >> README.md
+echo "## Steps" >> README.md
 echo "" >> README.md
 
 git init
