@@ -171,3 +171,72 @@
 				}
 			}
 			```
+			
+    - Manage person validation:
+        - Add a new method to display validation error messages:
+		    ```c#
+			namespace C_001_SRP
+			{
+				public class StandardMessages
+				{
+					....
+			
+					public static void DisplayValidationError(string fielName)
+					{
+						Console.WriteLine($"No ha proporcionado un {fielName} válido!");
+					}
+				}
+			}
+		    ```
+			
+        - Create a class to manage person validations:
+		    ```c#
+			namespace C_001_SRP
+			{
+				public class PersonValidator
+				{
+					public static bool Validate(Person person)
+					{
+						// Chequear que nombre y apellido son válidos.
+						if (string.IsNullOrEmpty(person.FirstName))
+						{
+							StandardMessages.DisplayValidationError("nombre");
+							return false;
+						}
+			
+						if (string.IsNullOrEmpty(person.LastName))
+						{
+							StandardMessages.DisplayValidationError("apellido");
+							return false;
+						}
+			
+						return true;
+					}
+				}
+			}
+		    ```
+		- Modify program.cs to use PersonValidator class:
+			```c#
+			namespace C_001_SRP
+			{
+				internal class Program
+				{
+					static void Main(string[] args)
+					{
+						....
+			
+						// Preguntar por información del usuario y Chequear que nombre y apellido son válidos.
+						Person user = PersonDataCapture.Capture();
+			
+						bool isUserValid = PersonValidator.Validate(user);
+			
+						if (!isUserValid)
+						{
+							StandardMessages.EndApplication();
+							return;
+						}
+						....
+					}
+				}
+			}
+			```

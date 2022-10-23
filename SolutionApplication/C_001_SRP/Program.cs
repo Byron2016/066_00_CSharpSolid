@@ -8,20 +8,13 @@ namespace C_001_SRP
         {
             StandardMessages.WelcomeMessage();
 
-            // Preguntar por información del usuario
+            // Preguntar por información del usuario y Chequear que nombre y apellido son válidos.
             Person user = PersonDataCapture.Capture();
 
-            // Chequear que nombre y apellido son válidos.
-            if (string.IsNullOrEmpty(user.FirstName))
-            {
-                Console.WriteLine("No ha proporcionado un nombre inválido!");
-                StandardMessages.EndApplication();
-                return;
-            }
+            bool isUserValid = PersonValidator.Validate(user);
 
-            if (string.IsNullOrEmpty(user.LastName))
+            if (!isUserValid)
             {
-                Console.WriteLine("No ha proporcionado un apellido inválido!");
                 StandardMessages.EndApplication();
                 return;
             }
