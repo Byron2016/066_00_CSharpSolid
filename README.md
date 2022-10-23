@@ -711,3 +711,60 @@
 					}
 				}
 				```
+				
+        - Define a Person like a executive.
+			- Into C_002_OCP_Library project
+				- ExecutiveAccounts
+					```c#
+					namespace C_002_OCP_Library
+					{
+						class ExecutiveAccounts : IAccounts
+						{
+							public EmployeeModel Create(IApplicantModel person)
+							{
+								EmployeeModel output = new EmployeeModel();
+					
+								output.FirstName = person.FirstName;
+								output.LastName = person.LastName;
+								output.EmailAddress = $"{person.FirstName}{person.LastName}@acmeEXECUTIVE.com";
+					
+								output.isManager = true;
+								output.isExecutive = true;
+					
+								return output;
+							}
+						}
+					}
+					```
+				- ExecutiveModel
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public class ExecutiveModel : IApplicantModel
+						{
+							public string FirstName { get; set; }
+							public string LastName { get; set; }
+							public IAccounts AccountProcessor { get; set; } = new ExecutiveAccounts();
+						}
+					}
+					```
+					
+			- Into C_002_OCP project
+				```c#
+				namespace C_002_OCP
+				{
+					public class Program
+					{
+						static void Main(string[] args)
+						{
+							List<IApplicantModel> applicants = new List<IApplicantModel>
+							{
+								....
+								new ManagerModel{ FirstName = "Sue", LastName = "Store" },
+								new ExecutiveModel{ FirstName = "Nancy", LastName = "Roman" }
+							};
+							....
+						}
+					}
+				}
+				```

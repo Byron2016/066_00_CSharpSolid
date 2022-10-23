@@ -10,7 +10,7 @@ namespace C_002_OCP
             {
                 new PersonModel{ FirstName = "Tim", LastName = "Corey" },
                 new ManagerModel{ FirstName = "Sue", LastName = "Store" },
-                new PersonModel{ FirstName = "Nancy", LastName = "Roman" }
+                new ExecutiveModel{ FirstName = "Nancy", LastName = "Roman" }
             };
 
             List<EmployeeModel> employees = new List<EmployeeModel>();
