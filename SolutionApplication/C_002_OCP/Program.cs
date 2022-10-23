@@ -9,7 +9,7 @@ namespace C_002_OCP
             List<IApplicantModel> applicants = new List<IApplicantModel>
             {
                 new PersonModel{ FirstName = "Tim", LastName = "Corey" },
-                new PersonModel{ FirstName = "Sue", LastName = "Store" },
+                new ManagerModel{ FirstName = "Sue", LastName = "Store" },
                 new PersonModel{ FirstName = "Nancy", LastName = "Roman" }
             };
 

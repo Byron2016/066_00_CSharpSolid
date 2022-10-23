@@ -623,35 +623,91 @@
 					}
 					```
 					
-        - Into C_002_OCP project
-		    ```c#
-			using C_002_OCP_Library;
-			
-			namespace C_002_OCP
-			{
-				public class Program
+			- Into C_002_OCP project
+				```c#
+				using C_002_OCP_Library;
+				
+				namespace C_002_OCP
 				{
-					static void Main(string[] args)
+					public class Program
 					{
-						List<IApplicantModel> applicants = new List<IApplicantModel>
+						static void Main(string[] args)
 						{
+							List<IApplicantModel> applicants = new List<IApplicantModel>
+							{
+								....
+							};
+				
 							....
-						};
-			
-						....
-						// Accounts accountProcessor = new Accounts();
-						foreach (var person in applicants)
-						{
-							employees.Add(person.AccountProcessor.Create(person));
+							// Accounts accountProcessor = new Accounts();
+							foreach (var person in applicants)
+							{
+								employees.Add(person.AccountProcessor.Create(person));
+							}
+				
+							foreach (var emp in employees)
+							{
+								Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: { emp.isManager } IsExecutive: { emp.isExecutive }");
+							}
+				
+							....
 						}
-			
-						foreach (var emp in employees)
-						{
-							Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: { emp.isManager } IsExecutive: { emp.isExecutive }");
-						}
-			
-						....
 					}
 				}
-			}
-		    ```
+				```
+				
+        - Define a Person like a manager.
+			- Into C_002_OCP_Library project
+				- ManagerAccounts
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public class ManagerAccounts : IAccounts
+						{
+							public EmployeeModel Create(IApplicantModel person)
+							{
+								EmployeeModel output = new EmployeeModel();
+					
+								output.FirstName = person.FirstName;
+								output.LastName = person.LastName;
+								output.EmailAddress = $"{person.FirstName.Substring(0, 1)}{person.LastName}@acmeMANAGER.com";
+					
+								output.isManager = true;
+					
+								return output;
+							}
+						}
+					}
+					```
+				- ManagerModel
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public class ManagerModel : IApplicantModel
+						{
+							public string FirstName { get; set; }
+							public string LastName { get; set; }
+							public IAccounts AccountProcessor { get; set; } = new ManagerAccounts();
+						}
+					}
+					```
+					
+			- Into C_002_OCP project
+				```c#
+				namespace C_002_OCP
+				{
+					public class Program
+					{
+						static void Main(string[] args)
+						{
+							List<IApplicantModel> applicants = new List<IApplicantModel>
+							{
+								....
+								new ManagerModel{ FirstName = "Sue", LastName = "Store" },
+								....
+							};
+							....
+						}
+					}
+				}
+				```
