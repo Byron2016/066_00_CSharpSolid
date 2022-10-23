@@ -578,6 +578,7 @@
 						{
 							string? FirstName { get; set; }
 							string? LastName { get; set; }
+							IAccounts AccountProcessor { get; set; }
 						}
 					}
 					```
@@ -588,6 +589,69 @@
 						public class PersonModel : IApplicantModel
 						{
 							....
+							public IAccounts AccountProcessor { get; set; } = new Accounts();
 						}
 					}
 					```
+				- IAccounts
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public interface IAccounts
+						{
+							EmployeeModel Create(IApplicantModel person);
+						}
+					}
+					```
+				- Accounts
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public class Accounts : IAccounts
+						{
+							public EmployeeModel Create(IApplicantModel person)
+							{
+								EmployeeModel output = new EmployeeModel();
+					
+								output.FirstName = person.FirstName;
+								output.LastName = person.LastName;
+								output.EmailAddress = $"{person.FirstName.Substring(0, 1)}{person.LastName}@acme.com";
+					
+								return output;
+							}
+						}
+					}
+					```
+					
+        - Into C_002_OCP project
+		    ```c#
+			using C_002_OCP_Library;
+			
+			namespace C_002_OCP
+			{
+				public class Program
+				{
+					static void Main(string[] args)
+					{
+						List<IApplicantModel> applicants = new List<IApplicantModel>
+						{
+							....
+						};
+			
+						....
+						// Accounts accountProcessor = new Accounts();
+						foreach (var person in applicants)
+						{
+							employees.Add(person.AccountProcessor.Create(person));
+						}
+			
+						foreach (var emp in employees)
+						{
+							Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: { emp.isManager } IsExecutive: { emp.isExecutive }");
+						}
+			
+						....
+					}
+				}
+			}
+		    ```

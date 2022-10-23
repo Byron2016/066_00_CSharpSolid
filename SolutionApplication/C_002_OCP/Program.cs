@@ -6,7 +6,7 @@ namespace C_002_OCP
     {
         static void Main(string[] args)
         {
-            List<PersonModel> applicants = new List<PersonModel>
+            List<IApplicantModel> applicants = new List<IApplicantModel>
             {
                 new PersonModel{ FirstName = "Tim", LastName = "Corey" },
                 new PersonModel{ FirstName = "Sue", LastName = "Store" },
@@ -14,11 +14,11 @@ namespace C_002_OCP
             };
 
             List<EmployeeModel> employees = new List<EmployeeModel>();
-            Accounts accountProcessor = new Accounts();
+            // Accounts accountProcessor = new Accounts();
 
             foreach (var person in applicants)
             {
-                employees.Add(accountProcessor.Create(person));
+                employees.Add(person.AccountProcessor.Create(person));
             }
 
             foreach (var emp in employees)
