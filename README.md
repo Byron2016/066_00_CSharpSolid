@@ -524,4 +524,70 @@
 			
     - The right way: We are going to add two new types of employee: manager and executive.
         - Return all to initial state.
-		
+        - Into C_002_OCP_Library project
+			- EmployeeModel
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class EmployeeModel
+					{
+						....
+						public bool isManager { get; set; } = false;
+						public bool isExecutive { get; set; } = false;
+					}
+				}
+				```
+				
+        - Into C_002_OCP project
+		    ```c#
+			using C_002_OCP_Library;
+			
+			namespace C_002_OCP
+			{
+				public class Program
+				{
+					static void Main(string[] args)
+					{
+						List<PersonModel> applicants = new List<PersonModel>
+						{
+							new PersonModel{ FirstName = "Tim", LastName = "Corey" },
+							new PersonModel{ FirstName = "Sue", LastName = "Store" },
+							new PersonModel{ FirstName = "Nancy", LastName = "Roman" }
+						};
+			
+						....
+			
+						foreach (var emp in employees)
+						{
+							Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: { emp.isManager } IsExecutive: { emp.isExecutive }");
+						}
+			
+						....
+					}
+				}
+			}
+		    ```
+			
+		- Do not tie yourself directly to classes.
+			- Into C_002_OCP_Library project
+				- IApplicantModel
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public interface IApplicantModel
+						{
+							string? FirstName { get; set; }
+							string? LastName { get; set; }
+						}
+					}
+					```
+				- PersonModel
+					```c#
+					namespace C_002_OCP_Library
+					{
+						public class PersonModel : IApplicantModel
+						{
+							....
+						}
+					}
+					```
