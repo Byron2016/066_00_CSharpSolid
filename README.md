@@ -323,3 +323,96 @@
 			}
 		}
 		```
+
+3. Open Closed Principle
+    - Create new projects with these caracteristics:
+        - Project Type: Console App
+	    - Projects Name: C_002_OCP
+        - Framework: .NET 6.0 (Long-term support) 
+        - Do not use top-level-statements: true
+
+    - Create new projects with these caracteristics:
+        - Project Type: Class Library
+	    - Projects Name: C_002_OCP_Library
+        - Framework: .NET 6.0 (Long-term support) 
+
+    - We have this initial code:
+        - Into C_002_OCP_Library project
+			- PersonModel
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class PersonModel
+					{
+						public string? FirstName { get; set; }
+						public string? LastName { get; set; }
+					}
+				}
+				```
+			- EmployeeModel
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class EmployeeModel
+					{
+						public string? FirstName { get; set; }
+						public string? LastName { get; set; }
+						public string? EmailAddress { get; set; }
+					}
+				}
+				```
+			- Accounts
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class Accounts
+					{
+						public EmployeeModel Create(PersonModel person)
+						{
+							EmployeeModel output = new EmployeeModel();
+				
+							output.FirstName = person.FirstName;
+							output.LastName = person.LastName;
+							output.EmailAddress = $"{person.FirstName.Substring(0, 1)}{person.LastName}@acme.com";
+				
+							return output;
+						}
+					}
+				}
+				```
+				
+        - Into C_002_OCP project
+		    ```c#
+			using C_002_OCP_Library;
+			
+			namespace C_002_OCP
+			{
+				public class Program
+				{
+					static void Main(string[] args)
+					{
+						List<PersonModel> applicants = new List<PersonModel>
+						{
+							new PersonModel{ FirstName = "Tim", LastName = "Corey" },
+							new PersonModel{ FirstName = "Sue", LastName = "Store" },
+							new PersonModel{ FirstName = "Nancy", LastName = "Roman" }
+						};
+			
+						List<EmployeeModel> employees = new List<EmployeeModel>();
+						Accounts accountProcessor = new Accounts();
+			
+						foreach (var person in applicants)
+						{
+							employees.Add(accountProcessor.Create(person));
+						}
+			
+						foreach (var emp in employees)
+						{
+							Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress}");
+						}
+			
+						Console.ReadLine();
+					}
+				}
+			}
+		    ```
