@@ -416,3 +416,108 @@
 				}
 			}
 		    ```
+
+    - The wrong way: We are going to add two new types of employee: manager and executive.
+        - Into C_002_OCP_Library project
+			- EmployeeModel
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class EmployeeModel
+					{
+						....
+						public bool isManager { get; set; } = false;
+						public bool isExecutive { get; set; } = false;
+					}
+				}
+				```
+			- EmployeeType
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public enum EmployeeType
+					{
+						Staff,
+						Manager,
+						Executive
+					}
+				}
+				```
+			- PersonModel
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class PersonModel
+					{
+						....
+						public EmployeeType TypeOfEmployee { get; set; } = EmployeeType.Staff;
+					}
+				}
+				```
+
+			- Accounts
+				```c#
+				namespace C_002_OCP_Library
+				{
+					public class Accounts
+					{
+						public EmployeeModel Create(PersonModel person)
+						{
+							....
+							output.EmailAddress = $"{person.FirstName.Substring(0, 1)}{person.LastName}@acme.com";
+							
+							//if(person.TypeOfEmployee == EmployeeType.Manager)
+							//{
+							//    output.isManager = true;
+							//}
+				
+							switch (person.TypeOfEmployee)
+							{
+								case EmployeeType.Staff:
+									break;
+								case EmployeeType.Manager:
+									output.isManager = true;
+									break;
+								case EmployeeType.Executive:
+									output.isManager = true;
+									output.isExecutive = true;
+									break;
+								default:
+									break;
+							}
+				
+							return output;
+						}
+					}
+				}
+				```
+				
+        - Into C_002_OCP project
+		    ```c#
+			using C_002_OCP_Library;
+			
+			namespace C_002_OCP
+			{
+				public class Program
+				{
+					static void Main(string[] args)
+					{
+						List<PersonModel> applicants = new List<PersonModel>
+						{
+							new PersonModel{ FirstName = "Tim", LastName = "Corey" },
+							new PersonModel{ FirstName = "Sue", LastName = "Store", TypeOfEmployee = EmployeeType.Manager },
+							new PersonModel{ FirstName = "Nancy", LastName = "Roman", TypeOfEmployee = EmployeeType.Executive }
+						};
+			
+						....
+			
+						foreach (var emp in employees)
+						{
+							Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: { emp.isManager } IsExecutive: { emp.isExecutive }");
+						}
+			
+						....
+					}
+				}
+			}
+		    ```

@@ -9,8 +9,8 @@ namespace C_002_OCP
             List<PersonModel> applicants = new List<PersonModel>
             {
                 new PersonModel{ FirstName = "Tim", LastName = "Corey" },
-                new PersonModel{ FirstName = "Sue", LastName = "Store" },
-                new PersonModel{ FirstName = "Nancy", LastName = "Roman" }
+                new PersonModel{ FirstName = "Sue", LastName = "Store", TypeOfEmployee = EmployeeType.Manager },
+                new PersonModel{ FirstName = "Nancy", LastName = "Roman", TypeOfEmployee = EmployeeType.Executive }
             };
 
             List<EmployeeModel> employees = new List<EmployeeModel>();
@@ -23,7 +23,7 @@ namespace C_002_OCP
 
             foreach (var emp in employees)
             {
-                Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress}");
+                Console.WriteLine($"{emp.FirstName} {emp.LastName}: {emp.EmailAddress} IsManager: {emp.isManager} IsExecutive: {emp.isExecutive}");
             }
 
             Console.ReadLine();
